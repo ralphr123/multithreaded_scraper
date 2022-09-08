@@ -2,7 +2,7 @@ Uses producer and consumer threads to fetch, organize, and process site data fro
 
 I had a short amount of time to make this originally, so I chose python for it's libraries and convenience. If I redo this, I'll write it in C++ for speed. Another issue is a memory and bottleneck problem: the scraper keeps processed data in memory before outputting everything to the file inside the main thread. Given more time, I'll opt to continuously write finished entries to the outfile, saving time and memory.
 
-# number of sites scraped
+## number of sites scraped
 all           267,319,970
 ------------------------
 .com        159,680,671   
