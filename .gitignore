@@ -1,0 +1,13 @@
+out.html
+test.*
+cities.json
+__pycache__
+Dockerfile
+example.md
+*.toml
+.vscode
+main_single.py
+in-all.csv
+in.csv
+fail-all.csv
+out-all.csv
