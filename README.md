@@ -1,6 +1,6 @@
 Uses producer and consumer threads to fetch, organize, and process site data from a list of URLs on a very large scale (200m+). Measures % hit rate of sites successfully scraped, and tracks failed valid live URLs in a fail file. Gathers emails, numbers, social links, and some location info. Example output included. 
 
-I had a short amount of time to make this originally, so I chose python for it's libraries and convenience. If I redo this, I'll write it in C++ for speed. Another issue is a memory and bottleneck problem: the scraper keeps processed data in memory before outputting everything to the file inside the main thread. Given more time, I'll opt to continuously write finished entries to the outfile, saving time and memory.
+I had a short amount of time to make this originally, so I chose python for it's libraries and convenience. If I redo this, I'll write it in C++ for speed. Another issue is a bottleneck: the scraper keeps processed data in memory before outputting everything to the file inside the main thread. Given more time, I'll opt to continuously write finished entries to the outfile, saving time and memory.
 
 ## number of sites scraped
 all           267,319,970
