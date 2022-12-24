@@ -1,0 +1,4 @@
+/Users/ralph/Desktop/Code/py_multithreaded_scraper/CMakeFiles/utils.dir
+/Users/ralph/Desktop/Code/py_multithreaded_scraper/CMakeFiles/main.dir
+/Users/ralph/Desktop/Code/py_multithreaded_scraper/CMakeFiles/edit_cache.dir
+/Users/ralph/Desktop/Code/py_multithreaded_scraper/CMakeFiles/rebuild_cache.dir

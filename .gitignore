@@ -11,3 +11,8 @@ in-all.csv
 in.csv
 fail-all.csv
 out-all.csv
+*.out
+*.o
+main
+*.dSYM
+.DS_Store

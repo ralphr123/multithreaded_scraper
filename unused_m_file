@@ -1,0 +1,9 @@
+CXX := g++
+CXXFLAGS := -std=c++11 -Wall -lcurl
+
+OBJECTS := main.o utils.o
+
+main: $(OBJECTS)
+		$(CXX) $(CXXFLAGS) -o $@ $^
+
+$(OBJECTS): utils.hpp
