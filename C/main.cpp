@@ -35,21 +35,21 @@ int main() {
     // Test CURL call
     CURL *curl = curl_easy_init();
     // std::string raw = curl_get_req(curl, "https://www.dadavan.com/");
-    std::string html = "<div>Hello World!</div>";
+    std::string html = "<head>Hello World!</head>";
     curl_easy_cleanup(curl);
 
     // Create document
     lxb_html_document_t *document = lxb_html_document_create();
 
-    lxb_status_t status = lxb_html_document_parse(document, (const lxb_char_t *) html.c_str(), html.size() - 1);
+    lxb_status_t status = lxb_html_document_parse(document, (const lxb_char_t *) html.c_str(), html.size());
     if (status != LXB_STATUS_OK) {
         exit(EXIT_FAILURE);
     }
     
-    document->dom_document.element;
 
     // Ready to work with document
-    
+    lxb_dom_node_t *headNode = lxb_dom_interface_node(document->head);
+
 
     // Destroy document
     lxb_html_document_destroy(document);

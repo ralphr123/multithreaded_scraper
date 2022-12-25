@@ -1,4 +1,4 @@
-# Install script for directory: /Users/ralph/Desktop/Code/py_multithreaded_scraper
+# Install script for directory: /Users/ralph/Desktop/Code/py_multithreaded_scraper/C
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/ralph/Desktop/Code/py_multithreaded_scraper/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

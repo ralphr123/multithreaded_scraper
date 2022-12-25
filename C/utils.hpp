@@ -6,7 +6,7 @@
 #include <curl/curl.h>
 #include <lexbor/html/parser.h>
 #include <lexbor/dom/interfaces/element.h>
-#include <lexbor/css/css.h>
+// #include <lexbor/css/css.h>
 
 // /opt/homebrew/include/lexbor/html/parser.h
 // /opt/homebrew/include/lexbor/dom/interfaces/element.h

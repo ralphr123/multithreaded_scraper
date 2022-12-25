@@ -53,10 +53,10 @@ RM = /opt/homebrew/Cellar/cmake/3.25.1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/ralph/Desktop/Code/py_multithreaded_scraper
+CMAKE_SOURCE_DIR = /Users/ralph/Desktop/Code/py_multithreaded_scraper/C
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ralph/Desktop/Code/py_multithreaded_scraper
+CMAKE_BINARY_DIR = /Users/ralph/Desktop/Code/py_multithreaded_scraper/C
 
 # Include any dependencies generated for this target.
 include CMakeFiles/utils.dir/depend.make
@@ -72,16 +72,16 @@ include CMakeFiles/utils.dir/flags.make
 CMakeFiles/utils.dir/utils.cpp.o: CMakeFiles/utils.dir/flags.make
 CMakeFiles/utils.dir/utils.cpp.o: utils.cpp
 CMakeFiles/utils.dir/utils.cpp.o: CMakeFiles/utils.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/utils.dir/utils.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/utils.dir/utils.cpp.o -MF CMakeFiles/utils.dir/utils.cpp.o.d -o CMakeFiles/utils.dir/utils.cpp.o -c /Users/ralph/Desktop/Code/py_multithreaded_scraper/utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/utils.dir/utils.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/utils.dir/utils.cpp.o -MF CMakeFiles/utils.dir/utils.cpp.o.d -o CMakeFiles/utils.dir/utils.cpp.o -c /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/utils.cpp
 
 CMakeFiles/utils.dir/utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/utils.dir/utils.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ralph/Desktop/Code/py_multithreaded_scraper/utils.cpp > CMakeFiles/utils.dir/utils.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/utils.cpp > CMakeFiles/utils.dir/utils.cpp.i
 
 CMakeFiles/utils.dir/utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/utils.dir/utils.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ralph/Desktop/Code/py_multithreaded_scraper/utils.cpp -o CMakeFiles/utils.dir/utils.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/utils.cpp -o CMakeFiles/utils.dir/utils.cpp.s
 
 # Object files for target utils
 utils_OBJECTS = \
@@ -93,7 +93,7 @@ utils_EXTERNAL_OBJECTS =
 libutils.a: CMakeFiles/utils.dir/utils.cpp.o
 libutils.a: CMakeFiles/utils.dir/build.make
 libutils.a: CMakeFiles/utils.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libutils.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libutils.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/utils.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/utils.dir/link.txt --verbose=$(VERBOSE)
 
@@ -106,6 +106,6 @@ CMakeFiles/utils.dir/clean:
 .PHONY : CMakeFiles/utils.dir/clean
 
 CMakeFiles/utils.dir/depend:
-	cd /Users/ralph/Desktop/Code/py_multithreaded_scraper && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ralph/Desktop/Code/py_multithreaded_scraper /Users/ralph/Desktop/Code/py_multithreaded_scraper /Users/ralph/Desktop/Code/py_multithreaded_scraper /Users/ralph/Desktop/Code/py_multithreaded_scraper /Users/ralph/Desktop/Code/py_multithreaded_scraper/CMakeFiles/utils.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/ralph/Desktop/Code/py_multithreaded_scraper/C && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ralph/Desktop/Code/py_multithreaded_scraper/C /Users/ralph/Desktop/Code/py_multithreaded_scraper/C /Users/ralph/Desktop/Code/py_multithreaded_scraper/C /Users/ralph/Desktop/Code/py_multithreaded_scraper/C /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles/utils.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/utils.dir/depend
 
