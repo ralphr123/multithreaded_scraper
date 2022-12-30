@@ -193,7 +193,7 @@ def process_primary(args: CustomThreadArgs, fetchResult):
 
         # Prelim data
         description = soup.find('meta', {'name': 'description'})
-        title = (soup.find('meta', {'property': 'og:site_name'}) or {}).get('content')
+        title = (soup.find('meta', {'property': 'og:site_name'}) or {}).get('content') # property="og:site_name"
         if (title == None or title == ""):
             title = (
                 (

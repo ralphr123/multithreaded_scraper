@@ -117,78 +117,115 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named utils
+# Target rules for targets named Utils
 
 # Build rule for target.
-utils: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 utils
-.PHONY : utils
+Utils: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Utils
+.PHONY : Utils
 
 # fast build rule for target.
-utils/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/utils.dir/build.make CMakeFiles/utils.dir/build
-.PHONY : utils/fast
+Utils/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Utils.dir/build.make CMakeFiles/Utils.dir/build
+.PHONY : Utils/fast
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named HTMLParser
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
-.PHONY : main
+HTMLParser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 HTMLParser
+.PHONY : HTMLParser
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+HTMLParser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HTMLParser.dir/build.make CMakeFiles/HTMLParser.dir/build
+.PHONY : HTMLParser/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+#=============================================================================
+# Target rules for targets named Main
 
-# target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.o
-.PHONY : main.cpp.o
+# Build rule for target.
+Main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Main
+.PHONY : Main
 
-main.i: main.cpp.i
-.PHONY : main.i
+# fast build rule for target.
+Main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/build
+.PHONY : Main/fast
 
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
-.PHONY : main.cpp.s
-
-utils.o: utils.cpp.o
-.PHONY : utils.o
+HTMLParser.o: HTMLParser.cpp.o
+.PHONY : HTMLParser.o
 
 # target to build an object file
-utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/utils.dir/build.make CMakeFiles/utils.dir/utils.cpp.o
-.PHONY : utils.cpp.o
+HTMLParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HTMLParser.dir/build.make CMakeFiles/HTMLParser.dir/HTMLParser.cpp.o
+.PHONY : HTMLParser.cpp.o
 
-utils.i: utils.cpp.i
-.PHONY : utils.i
+HTMLParser.i: HTMLParser.cpp.i
+.PHONY : HTMLParser.i
 
 # target to preprocess a source file
-utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/utils.dir/build.make CMakeFiles/utils.dir/utils.cpp.i
-.PHONY : utils.cpp.i
+HTMLParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HTMLParser.dir/build.make CMakeFiles/HTMLParser.dir/HTMLParser.cpp.i
+.PHONY : HTMLParser.cpp.i
 
-utils.s: utils.cpp.s
-.PHONY : utils.s
+HTMLParser.s: HTMLParser.cpp.s
+.PHONY : HTMLParser.s
 
 # target to generate assembly for a file
-utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/utils.dir/build.make CMakeFiles/utils.dir/utils.cpp.s
-.PHONY : utils.cpp.s
+HTMLParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HTMLParser.dir/build.make CMakeFiles/HTMLParser.dir/HTMLParser.cpp.s
+.PHONY : HTMLParser.cpp.s
+
+Main.o: Main.cpp.o
+.PHONY : Main.o
+
+# target to build an object file
+Main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/Main.cpp.o
+.PHONY : Main.cpp.o
+
+Main.i: Main.cpp.i
+.PHONY : Main.i
+
+# target to preprocess a source file
+Main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/Main.cpp.i
+.PHONY : Main.cpp.i
+
+Main.s: Main.cpp.s
+.PHONY : Main.s
+
+# target to generate assembly for a file
+Main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/Main.cpp.s
+.PHONY : Main.cpp.s
+
+Utils.o: Utils.cpp.o
+.PHONY : Utils.o
+
+# target to build an object file
+Utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Utils.dir/build.make CMakeFiles/Utils.dir/Utils.cpp.o
+.PHONY : Utils.cpp.o
+
+Utils.i: Utils.cpp.i
+.PHONY : Utils.i
+
+# target to preprocess a source file
+Utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Utils.dir/build.make CMakeFiles/Utils.dir/Utils.cpp.i
+.PHONY : Utils.cpp.i
+
+Utils.s: Utils.cpp.s
+.PHONY : Utils.s
+
+# target to generate assembly for a file
+Utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Utils.dir/build.make CMakeFiles/Utils.dir/Utils.cpp.s
+.PHONY : Utils.cpp.s
 
 # Help Target
 help:
@@ -198,14 +235,18 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... main"
-	@echo "... utils"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... utils.o"
-	@echo "... utils.i"
-	@echo "... utils.s"
+	@echo "... HTMLParser"
+	@echo "... Main"
+	@echo "... Utils"
+	@echo "... HTMLParser.o"
+	@echo "... HTMLParser.i"
+	@echo "... HTMLParser.s"
+	@echo "... Main.o"
+	@echo "... Main.i"
+	@echo "... Main.s"
+	@echo "... Utils.o"
+	@echo "... Utils.i"
+	@echo "... Utils.s"
 .PHONY : help
 
 

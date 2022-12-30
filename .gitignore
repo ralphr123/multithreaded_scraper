@@ -16,3 +16,5 @@ out-all.csv
 main
 *.dSYM
 .DS_Store
+CMakeFiles
+C/CMakeFiles

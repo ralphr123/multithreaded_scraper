@@ -63,8 +63,9 @@ CMAKE_BINARY_DIR = /Users/ralph/Desktop/Code/py_multithreaded_scraper/C
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/utils.dir/all
-all: CMakeFiles/main.dir/all
+all: CMakeFiles/Utils.dir/all
+all: CMakeFiles/HTMLParser.dir/all
+all: CMakeFiles/Main.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,61 +73,89 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/utils.dir/clean
-clean: CMakeFiles/main.dir/clean
+clean: CMakeFiles/Utils.dir/clean
+clean: CMakeFiles/HTMLParser.dir/clean
+clean: CMakeFiles/Main.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/utils.dir
+# Target rules for target CMakeFiles/Utils.dir
 
 # All Build rule for target.
-CMakeFiles/utils.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/utils.dir/build.make CMakeFiles/utils.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/utils.dir/build.make CMakeFiles/utils.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles --progress-num=3,4 "Built target utils"
-.PHONY : CMakeFiles/utils.dir/all
+CMakeFiles/Utils.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Utils.dir/build.make CMakeFiles/Utils.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Utils.dir/build.make CMakeFiles/Utils.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles --progress-num=5,6 "Built target Utils"
+.PHONY : CMakeFiles/Utils.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/utils.dir/rule: cmake_check_build_system
+CMakeFiles/Utils.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/utils.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Utils.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles 0
-.PHONY : CMakeFiles/utils.dir/rule
+.PHONY : CMakeFiles/Utils.dir/rule
 
 # Convenience name for target.
-utils: CMakeFiles/utils.dir/rule
-.PHONY : utils
+Utils: CMakeFiles/Utils.dir/rule
+.PHONY : Utils
 
 # clean rule for target.
-CMakeFiles/utils.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/utils.dir/build.make CMakeFiles/utils.dir/clean
-.PHONY : CMakeFiles/utils.dir/clean
+CMakeFiles/Utils.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Utils.dir/build.make CMakeFiles/Utils.dir/clean
+.PHONY : CMakeFiles/Utils.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/main.dir
+# Target rules for target CMakeFiles/HTMLParser.dir
 
 # All Build rule for target.
-CMakeFiles/main.dir/all: CMakeFiles/utils.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles --progress-num=1,2 "Built target main"
-.PHONY : CMakeFiles/main.dir/all
+CMakeFiles/HTMLParser.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HTMLParser.dir/build.make CMakeFiles/HTMLParser.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HTMLParser.dir/build.make CMakeFiles/HTMLParser.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles --progress-num=1,2 "Built target HTMLParser"
+.PHONY : CMakeFiles/HTMLParser.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/main.dir/all
+CMakeFiles/HTMLParser.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/HTMLParser.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles 0
-.PHONY : CMakeFiles/main.dir/rule
+.PHONY : CMakeFiles/HTMLParser.dir/rule
 
 # Convenience name for target.
-main: CMakeFiles/main.dir/rule
-.PHONY : main
+HTMLParser: CMakeFiles/HTMLParser.dir/rule
+.PHONY : HTMLParser
 
 # clean rule for target.
-CMakeFiles/main.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/clean
-.PHONY : CMakeFiles/main.dir/clean
+CMakeFiles/HTMLParser.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HTMLParser.dir/build.make CMakeFiles/HTMLParser.dir/clean
+.PHONY : CMakeFiles/HTMLParser.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/Main.dir
+
+# All Build rule for target.
+CMakeFiles/Main.dir/all: CMakeFiles/Utils.dir/all
+CMakeFiles/Main.dir/all: CMakeFiles/HTMLParser.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles --progress-num=3,4 "Built target Main"
+.PHONY : CMakeFiles/Main.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/Main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles 0
+.PHONY : CMakeFiles/Main.dir/rule
+
+# Convenience name for target.
+Main: CMakeFiles/Main.dir/rule
+.PHONY : Main
+
+# clean rule for target.
+CMakeFiles/Main.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/clean
+.PHONY : CMakeFiles/Main.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -8,12 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
+  "/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/Main.cpp" "CMakeFiles/Main.dir/Main.cpp.o" "gcc" "CMakeFiles/Main.dir/Main.cpp.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles/utils.dir/DependInfo.cmake"
+  "/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles/Utils.dir/DependInfo.cmake"
+  "/Users/ralph/Desktop/Code/py_multithreaded_scraper/C/CMakeFiles/HTMLParser.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

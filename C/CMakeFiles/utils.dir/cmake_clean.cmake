@@ -1,11 +1,11 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/utils.dir/utils.cpp.o"
-  "CMakeFiles/utils.dir/utils.cpp.o.d"
-  "libutils.a"
-  "libutils.pdb"
+  "CMakeFiles/Utils.dir/Utils.cpp.o"
+  "CMakeFiles/Utils.dir/Utils.cpp.o.d"
+  "libUtils.a"
+  "libUtils.pdb"
 )
 
 # Per-language clean rules from dependency scanning.
 foreach(lang CXX)
-  include(CMakeFiles/utils.dir/cmake_clean_${lang}.cmake OPTIONAL)
+  include(CMakeFiles/Utils.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

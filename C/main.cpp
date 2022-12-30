@@ -1,8 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <map>
-#include "utils.hpp"
+#include "Utils.hpp"
+#include "HTMLParser.hpp"
+
+
 
 // Driver Code
 int main() {
@@ -10,9 +12,9 @@ int main() {
     /* ------------ 1. FETCHING STAGE ------------ */
     /* ------------------------------------------- */
     std::cout << "1. Begin fetching stage" << std::endl;
-    std::ifstream file("in.txt");
+    std::ifstream file("../in.txt");
 
-    std::vector<std::string> urls;
+    std::vector<std::string_view> urls;
 
     // Loop through input file
     std::string str;
@@ -25,34 +27,29 @@ int main() {
         urls.push_back(str);
     }
 
-    remove_duplicates(urls);
-    print_vector(urls);
-
-    // std::map<std::string, int> mem;
+    Utils::remove_duplicates(urls);
+    Utils::print_vector(urls);
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
-    // Test CURL call
     CURL *curl = curl_easy_init();
-    // std::string raw = curl_get_req(curl, "https://www.dadavan.com/");
-    std::string html = "<head>Hello World!</head>";
+    const std::string res = Utils::curl_get_req(curl, "www.google.com");
     curl_easy_cleanup(curl);
 
-    // Create document
-    lxb_html_document_t *document = lxb_html_document_create();
+    // const std::string res = "<div class=\"cool\">Hello World!</div>";
 
-    lxb_status_t status = lxb_html_document_parse(document, (const lxb_char_t *) html.c_str(), html.size());
-    if (status != LXB_STATUS_OK) {
-        exit(EXIT_FAILURE);
-    }
-    
+    HTMLParser bc = HTMLParser(res);
 
-    // Ready to work with document
-    lxb_dom_node_t *headNode = lxb_dom_interface_node(document->head);
+    // std::pair<bool, Element> el = bc.findByCallback(
+    //     "a",
+    //     [] (Element el) -> bool {
+    //         if (Utils::capitalize_string(el.text).find("CONTACT") != std::string::npos) return true;
+    //         return false;
+    //     }
+    // );
 
-
-    // Destroy document
-    lxb_html_document_destroy(document);
+    // std::cout << el.first << std::endl;
+    // std::cout << el.second.text << std::endl;
 
     curl_global_cleanup();
     return 0;
@@ -70,3 +67,9 @@ int main() {
 // Alternate idea (simpler)
 // Only one type of thread, fetch data, process data, update or ammend file, continue
 // When all threads exit, terminate program
+
+/*
+    ISSUES:
+        1. Tunnel down for nested text
+        2. Add comments for all functions
+*/
