@@ -17,4 +17,6 @@ main
 *.dSYM
 .DS_Store
 CMakeFiles
-C/CMakeFiles
+*.cmake
+CMakeCache.txt
+*.a
