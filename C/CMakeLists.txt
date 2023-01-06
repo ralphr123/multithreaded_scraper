@@ -22,6 +22,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Output libname matches target name, with the usual extensions on your system
 add_library(Utils Utils.cpp Utils.hpp)
 add_library(HTMLParser HTMLParser.cpp HTMLParser.hpp)
+add_library(Scrape Scrape.cpp Scrape.hpp)
 
 # Find packages
 find_package(CURL REQUIRED)
@@ -45,6 +46,7 @@ add_executable(Main Main.cpp)
 # even flags, so linking a target that does not exist will not give a configure-time error.
 target_link_libraries(Main PRIVATE Utils)
 target_link_libraries(Main PRIVATE HTMLParser)
+target_link_libraries(Main PRIVATE Scrape)
 target_link_libraries(Main PRIVATE ${CURL_LIBRARIES})
 target_link_libraries(Main PRIVATE ${LIBXML2_LIBRARIES})
 target_link_libraries(Main PRIVATE ${RE2_LIBRARIES})

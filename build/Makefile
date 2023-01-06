@@ -143,6 +143,19 @@ HTMLParser/fast:
 .PHONY : HTMLParser/fast
 
 #=============================================================================
+# Target rules for targets named Scrape
+
+# Build rule for target.
+Scrape: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Scrape
+.PHONY : Scrape
+
+# fast build rule for target.
+Scrape/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Scrape.dir/build.make CMakeFiles/Scrape.dir/build
+.PHONY : Scrape/fast
+
+#=============================================================================
 # Target rules for targets named Main
 
 # Build rule for target.
@@ -203,6 +216,30 @@ Main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
+Scrape.o: Scrape.cpp.o
+.PHONY : Scrape.o
+
+# target to build an object file
+Scrape.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Scrape.dir/build.make CMakeFiles/Scrape.dir/Scrape.cpp.o
+.PHONY : Scrape.cpp.o
+
+Scrape.i: Scrape.cpp.i
+.PHONY : Scrape.i
+
+# target to preprocess a source file
+Scrape.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Scrape.dir/build.make CMakeFiles/Scrape.dir/Scrape.cpp.i
+.PHONY : Scrape.cpp.i
+
+Scrape.s: Scrape.cpp.s
+.PHONY : Scrape.s
+
+# target to generate assembly for a file
+Scrape.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Scrape.dir/build.make CMakeFiles/Scrape.dir/Scrape.cpp.s
+.PHONY : Scrape.cpp.s
+
 Utils.o: Utils.cpp.o
 .PHONY : Utils.o
 
@@ -237,6 +274,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... HTMLParser"
 	@echo "... Main"
+	@echo "... Scrape"
 	@echo "... Utils"
 	@echo "... HTMLParser.o"
 	@echo "... HTMLParser.i"
@@ -244,6 +282,9 @@ help:
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"
+	@echo "... Scrape.o"
+	@echo "... Scrape.i"
+	@echo "... Scrape.s"
 	@echo "... Utils.o"
 	@echo "... Utils.i"
 	@echo "... Utils.s"
