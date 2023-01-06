@@ -4,8 +4,6 @@
 #include "Utils.hpp"
 #include "HTMLParser.hpp"
 
-
-
 // Driver Code
 int main() {
     /* ------------------------------------------- */
@@ -14,7 +12,7 @@ int main() {
     std::cout << "1. Begin fetching stage" << std::endl;
     std::ifstream file("../in.txt");
 
-    std::vector<std::string_view> urls;
+    std::vector<std::string> urls;
 
     // Loop through input file
     std::string str;
@@ -27,31 +25,85 @@ int main() {
         urls.push_back(str);
     }
 
-    Utils::remove_duplicates(urls);
-    Utils::print_vector(urls);
+    Utils::removeDuplicates(urls);
+
+    // TODO: Move to thread
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
     CURL *curl = curl_easy_init();
-    const std::string res = Utils::curl_get_req(curl, "www.google.com");
+    std::string res = Utils::curlGetReq(curl, urls.front());
     curl_easy_cleanup(curl);
-
-    // const std::string res = "<div class=\"cool\">Hello World!</div>";
 
     HTMLParser bc = HTMLParser(res);
 
-    // std::pair<bool, Element> el = bc.findByCallback(
-    //     "a",
-    //     [] (Element el) -> bool {
-    //         if (Utils::capitalize_string(el.text).find("CONTACT") != std::string::npos) return true;
-    //         return false;
-    //     }
-    // );
+    // Contact URL
+    std::pair<bool, Element> contactUrl_res = bc.findByCallback(
+        "a",
+        [] (Element el) -> bool {
+            if (Utils::lowerCaseString(el.text).find("contact") != std::string::npos) return true;
+            if (Utils::lowerCaseString(el.attributes["href"]).find("contact") != std::string::npos) return true;
+            return false;
+        }
+    );
 
-    // std::cout << el.first << std::endl;
-    // std::cout << el.second.text << std::endl;
+    // Site description
+    std::pair<bool, Element> description_res = bc.findByAttribute("meta", "name", "description");
+
+    // Site title
+    std::pair<bool, Element> title_res = bc.findByAttribute("meta", "name", "og:site_name");
+    if (!title_res.first) title_res = bc.findByAttribute("meta", "name", "og:title");
+    if (!title_res.first) title_res = std::pair<bool, Element>(1, bc.getTitle());
+    
+    // Favicon
+    std::pair<bool, Element> favicon_res = bc.findByCallback(
+        "link",
+        [] (Element e) -> bool {
+            if (Utils::lowerCaseString(e.attributes["rel"]).find("icon") != std::string::npos) return true;
+            return false;
+        }
+    );
+
+    // Regex
+    std::set<std::string> emails = Utils::filterEmails(bc.getAllReMatches(R"(([\w.+-]+@[\w-]+\.[\w.-]+))"));
+    std::set<std::string> numbers = Utils::filterNumbers(bc.getAllReMatches(R"(([(]?([\d]{3})[)]?[ -]?([\d]{3})[ -]?([\d]{4})))"));
+    std::set<std::string> socials = Utils::filterSocials(bc.getAllReMatches(R"((http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]))"));
+    std::set<std::string> streets = Utils::filterStreets(bc.getAllReMatches(R"((([0-9]+) ([a-zA-Z]+) (Street|Avenue|Blvd|Boulevard|Road|Ave|Drive)[ ]?(West|East)?))"));
+    std::vector<std::vector<std::string> > locations = bc.getAllReMatches(R"(([a-zA-Z]+)[, ][ ]?([a-zA-Z]+)[, ][ ]?(\d{5}|[A-Z]\d{1}[A-Z]{1} \d{1}[A-Z]{1}\d{1}))");
+    
+    // Static fields
+    std::string contactUrl = contactUrl_res.first ? contactUrl_res.second.attributes.at("href") : "";
+    std::string title = title_res.first ? "\"" + title_res.second.text + "\"" : "\"\"";
+    std::string description = description_res.first ? "\"" + description_res.second.attributes.at("content") + "\"" : "\"\"";
+    std::string favicon = favicon_res.first ? "\"" + Utils::getUrlPath(favicon_res.second.attributes["href"]) + "\"" : "\"\"";
+    std::string city = locations.size() > 0 ? locations[0][0] : "\"\"";
+    std::string region = locations.size() > 0 ? locations[0][1] : "\"\"";
+    std::string postalCode = locations.size() > 0 ? locations[0][2] : "\"\"";
+
+    // Output to file
+    std::ofstream outCSV;
+    outCSV.open("out.csv");
+    outCSV << "url,title,description,favicon,emails,numbers,socials,street,city,region,postalCode\n";
+
+    std::string line = (
+        urls.front() + ", " + 
+        title + ", " + 
+        description + ", " + 
+        favicon + ", " + 
+        Utils::setToString(emails) + ", " +
+        Utils::setToString(numbers) + ", " +
+        Utils::setToString(socials) + ", " +
+        Utils::setToString(streets) + ", " +
+        city + ", " + 
+        region + ", " + 
+        postalCode + "\n"
+    );
+
+    outCSV << line;
+    outCSV.close();
 
     curl_global_cleanup();
+    
     return 0;
 }
 
@@ -70,6 +122,9 @@ int main() {
 
 /*
     ISSUES:
-        1. Tunnel down for nested text
+        1. Tunnel down for nested text (!! IMPORTANT)
         2. Add comments for all functions
+        3. curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L)
+        4. Can save all locations instead of just first
+        5. Location capital letter
 */

@@ -212,8 +212,7 @@ def process_primary(args: CustomThreadArgs, fetchResult):
                 if soup.title
                 else ""
             )
-        favicon = soup.find(lambda tag: tag.name ==
-                            'link' and 'icon' in tag['rel'])
+        favicon = soup.find(lambda tag: tag.name == 'link' and 'icon' in tag['rel'])
         emails = re.findall(emailRegex, data)
         numbers = re.findall(numberRegex, data)
         socials = re.findall(urlRegex, data)

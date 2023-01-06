@@ -12,12 +12,7 @@ project(
   LANGUAGES CXX
 )
 
-set(CMAKE_CXX_STANDARD 17)
-
-# If you set any CMAKE_ variables, that can go here.
-# (But usually don't do this, except maybe for C++ standard)
-
-# Find packages go here.
+set(CMAKE_CXX_STANDARD 20)
 
 # You should usually split this into folders, but this is a simple example
 
@@ -33,13 +28,15 @@ find_package(CURL REQUIRED)
 find_package(LibXml2 REQUIRED)
 
 # Include directories
-# include_directories(/opt/homebrew/include)
-# include_directories(/opt/homebrew/Cellar/libxml2/2.10.3_1/include)
 include_directories(${CURL_INCLUDE_DIR})
 include_directories(${LIBXML2_INCLUDE_DIR})
+include_directories(/opt/homebrew/Cellar/re2/20221201/include/)
 
 # Link directories
-# link_directories(/opt/homebrew/Cellar/libxml2/2.10.3_1/lib)
+link_directories(/opt/homebrew/Cellar/re2/20221201/lib/)
+
+# Find external RE2 compiled library binaries
+file(GLOB RE2_LIBRARIES "/opt/homebrew/Cellar/re2/20221201/lib/*.dylib")
 
 # Adding something we can run - Output name matches target name
 add_executable(Main Main.cpp)
@@ -50,3 +47,4 @@ target_link_libraries(Main PRIVATE Utils)
 target_link_libraries(Main PRIVATE HTMLParser)
 target_link_libraries(Main PRIVATE ${CURL_LIBRARIES})
 target_link_libraries(Main PRIVATE ${LIBXML2_LIBRARIES})
+target_link_libraries(Main PRIVATE ${RE2_LIBRARIES})
