@@ -43,13 +43,19 @@ void Utils::removeDuplicates(std::vector<std::string> &vec) {
     vec.erase( unique( vec.begin(), vec.end() ), vec.end() );
 }
 
-/// @param curl Curl handle
-/// @param url URL
-/// @return Raw HTML contents of page
-std::string Utils::curlGetReq(CURL *curl, const std::string &url) {
-    if (!curl) return "invalid";
+void Utils::curlSetHeaders(CURL *curl) {
+    if (!curl) return;
 
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_slist *chunk = nullptr;
+
+    // Modify HTTP headers
+    chunk = curl_slist_append(chunk, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+    chunk = curl_slist_append(chunk, "Accept-Language: en-US,en;q=0.5");
+    chunk = curl_slist_append(chunk, "x-application-type: WebClient");
+    chunk = curl_slist_append(chunk, "x-client-version: 2.10.4");
+    chunk = curl_slist_append(chunk, "Origin: https://www.google.com");
+    chunk = curl_slist_append(chunk, "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:55.0) Gecko/20100101 Firefox/55.0");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
 
     // Allow 50 redirects
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
@@ -57,6 +63,23 @@ std::string Utils::curlGetReq(CURL *curl, const std::string &url) {
 
     // Write callback to response string
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCurlData);
+
+    // Set user agent
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, (char *) "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:55.0) Gecko/20100101 Firefox/55.0");
+
+    // Set timeout to 5 seconds
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5);
+}
+
+
+/// @param curl Curl handle
+/// @param url URL
+/// @return Raw HTML contents of page
+std::string Utils::curlGetReq(CURL *curl, const std::string &url) {
+    if (!curl) return "invalid";
+
+    // Set URL
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
     std::string response_string;
     std::string header_string;
@@ -67,8 +90,12 @@ std::string Utils::curlGetReq(CURL *curl, const std::string &url) {
     CURLcode res = curl_easy_perform(curl);
 
     if (res != CURLE_OK) {
-        return strcat((char *) "error: ", curl_easy_strerror(res));
+        std::cout << url.c_str() << std::endl;
+        std::cout << curl_easy_strerror(res) << std::endl;
+        return "error";
     }
+
+    // std::cout << url << ": " << response_string.size() << std::endl;
 
     return response_string;
 }
@@ -155,7 +182,7 @@ std::string Utils::getUrlDomain(const std::string &url) {
     }
 
     for (char ch : url) {
-        if (slashCount == 2) baseUrl += ch;
+        if (slashCount == 2 && ch != '/') baseUrl += ch;
         if (ch == '/') slashCount++;
         if (slashCount == 3) return baseUrl;
     }

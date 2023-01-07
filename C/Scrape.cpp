@@ -2,6 +2,7 @@
 
 void Scrape::producer(SafeQueue &urls, SafeQueue &htmls, std::atomic<unsigned int> &activeThreads) {
     CURL *curl = curl_easy_init();
+    Utils::curlSetHeaders(curl);
     while (1) {
         // Dequeue url from producer queue
         QueueArg queueArg = urls.dequeue(std::ref(activeThreads));
@@ -17,7 +18,9 @@ void Scrape::producer(SafeQueue &urls, SafeQueue &htmls, std::atomic<unsigned in
         // Fetch raw HTML with CURL and add it to consumer queue
         queueArg.html = Utils::curlGetReq(curl, queueArg.url);
 
-        htmls.enqueue(std::move(queueArg));
+        if (queueArg.html != "error") {
+            htmls.enqueue(std::move(queueArg));
+        }
 
         // Decrement active threads counter
         activeThreads.fetch_sub(1, std::memory_order_relaxed);
@@ -35,8 +38,7 @@ void Scrape::consumer(
 ) {
     while (1) {
         // Dequeue html from consumer queue
-        QueueArg queueArg = std::move(htmls.dequeue(std::ref(activeThreads)));
-
+        QueueArg queueArg = htmls.dequeue(std::ref(activeThreads));
 
         // No more work to be done
         if (queueArg.url == "done") {
@@ -89,7 +91,7 @@ void Scrape::consumer(
         
         // Static fields
         scrapeResult.title = title_res.first ? "\"" + title_res.second.text + "\"" : "\"\"";
-        scrapeResult.description = description_res.first ? "\"" + description_res.second.attributes.at("content") + "\"" : "\"\"";
+        scrapeResult.description = description_res.first ? "\"" + description_res.second.attributes["content"] + "\"" : "\"\"";
         scrapeResult.favicon = favicon_res.first ? "\"" + Utils::getUrlPath(favicon_res.second.attributes["href"]) + "\"" : "\"\"";
         scrapeResult.city = locations.size() > 0 ? locations[0][0] : "\"\"";
         scrapeResult.region = locations.size() > 0 ? locations[0][1] : "\"\"";
@@ -98,25 +100,26 @@ void Scrape::consumer(
         // Get contact page URL if it is found and not currently scraping a contact page
         std::string contactUrl;
         if (mem.count(queueArg.url) != 1 && contactUrl_res.first) {
-            contactUrl = contactUrl_res.second.attributes.at("href");
+            contactUrl = contactUrl_res.second.attributes["href"];
 
-            if (contactUrl.find(".com") == std::string::npos) {
-                contactUrl = queueArg.url + contactUrl;
+            if (contactUrl.size() > 0) {
+                if (contactUrl.find(".com") == std::string::npos) {
+                    contactUrl = queueArg.url + "/" + contactUrl;
+                }
+
+                urls.enqueue((QueueArg) { .url =  std::move(contactUrl) });
+
+                mem[queueArg.url] = std::move(scrapeResult);
+
+                // Decrement active threads counter
+                activeThreads.fetch_sub(1, std::memory_order_relaxed);
+
+                continue;
             }
-
-            urls.enqueue((QueueArg) { .url =  std::move(contactUrl) });
-
-            mem[queueArg.url] = std::move(scrapeResult);
-
-            // Decrement active threads counter
-            activeThreads.fetch_sub(1, std::memory_order_relaxed);
-
-            continue;
         }
 
         // Currently scraping contact page
         if (mem.count(queueArg.url) == 1) {
-            // Merge existing contact page data with main page
             scrapeResult = scrapeResult + mem[queueArg.url];
             mem.erase(queueArg.url);
         }

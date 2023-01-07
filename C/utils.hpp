@@ -19,6 +19,7 @@ class Utils {
         static std::string setToString(const std::set<std::string> &vec);
         static void printVector2D(const std::vector<std::vector<std::string> > &vec);
         static void removeDuplicates(std::vector<std::string> &vec);
+        static void curlSetHeaders(CURL *curl);
         static std::string curlGetReq(CURL *curl, const std::string &url);
         static std::string lowerCaseString(const std::string_view &str);
         static bool stringReplace(std::string& str, const std::string& from, const std::string& to);

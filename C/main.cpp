@@ -20,8 +20,6 @@ int main() {
             url = "http://" + url;
         }
 
-        std::cout << url << std::endl;
-
         urls.enqueue((QueueArg) { .url = std::move(url) });
     }
 
