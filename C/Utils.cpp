@@ -90,12 +90,9 @@ std::string Utils::curlGetReq(CURL *curl, const std::string &url) {
     CURLcode res = curl_easy_perform(curl);
 
     if (res != CURLE_OK) {
-        std::cout << url.c_str() << std::endl;
-        std::cout << curl_easy_strerror(res) << std::endl;
+        // std::cout << url.c_str() << ": " << curl_easy_strerror(res) << std::endl;
         return "error";
     }
-
-    // std::cout << url << ": " << response_string.size() << std::endl;
 
     return response_string;
 }

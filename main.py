@@ -7,7 +7,7 @@ import queue
 start_time = time.time()
 
 urls = []
-readFile = open('in.csv')
+readFile = open('./in.txt')
 reader = csv.reader(readFile, delimiter=',')
 
 # Get urls from input file
@@ -25,8 +25,8 @@ urlQueue: queue.Queue = queue.Queue()
 fetchQueue: queue.Queue = queue.Queue()
 
 # Params
-numProducers = 300
-numConsumers = 200
+numProducers = 1
+numConsumers = 1
 
 for url in urls:
     urlQueue.put({'isSubPage': False, 'url': url})

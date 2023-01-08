@@ -6,7 +6,6 @@ int main() {
     /* ------------ 1. FETCHING STAGE ------------ */
     /* ------------------------------------------- */
     std::ios_base::sync_with_stdio(false);
-    std::cout << "1. Begin fetching stage" << std::endl;
     std::ifstream file("../in.txt");
 
     SafeQueue urls = SafeQueue(true);
@@ -14,12 +13,7 @@ int main() {
 
     // Loop through input file
     std::string url;
-    while (std::getline(file, url)) {        
-        // Append http:// to beginning of url if 'HTTP" is not found in string
-        if (!(url[0] == 'h' && url[1] == 't' && url[2] == 't' && url[3] == 'p')) {
-            url = "http://" + url;
-        }
-
+    while (std::getline(file, url)) {
         urls.enqueue((QueueArg) { .url = std::move(url) });
     }
 
@@ -38,6 +32,11 @@ int main() {
     Scrape::consumer(std::ref(urls), std::ref(htmls), std::ref(activeThreads), std::ref(outCSV), std::ref(mtx), std::ref(mem));
     Scrape::producer(std::ref(urls), std::ref(htmls), std::ref(activeThreads));
     Scrape::consumer(std::ref(urls), std::ref(htmls), std::ref(activeThreads), std::ref(outCSV), std::ref(mtx), std::ref(mem));
+
+    std::cout << mem.size() << " items inside mem:" << std::endl;
+    for (auto& [key, value] : mem) {
+        std::cout << key << ": " << value.title << std::endl;
+    }
 
     outCSV.close();
     curl_global_cleanup();
@@ -60,9 +59,8 @@ int main() {
 
 /*
     ISSUES:
-        1. Tunnel down for nested text (!! IMPORTANT)
         2. Add comments for all functions
         3. curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L)
         4. Can save all locations instead of just first
-        5. Location capital letter
+        5. Location must be a capital letter
 */
