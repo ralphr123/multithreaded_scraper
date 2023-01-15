@@ -3,12 +3,10 @@
 void Scrape::producer(SafeQueue &urls, SafeQueue &htmls, std::atomic<unsigned int> &activeThreads) {
     CURL *curl = curl_easy_init();
     Utils::curlSetHeaders(curl);
-    while (1) {
-        // Dequeue url from producer queue
-        QueueArg queueArg = urls.dequeue(std::ref(activeThreads));
+    while (!urls.empty() || !htmls.empty()) {
+        QueueArg queueArg = urls.dequeue(&htmls, &activeThreads);
 
-        // No more work to be done
-        if (queueArg.url == "done") {
+        if (queueArg.url == "xxs") {
             break;
         }
 
@@ -38,16 +36,21 @@ void Scrape::consumer(
 ) {
     while (1) {
         // Dequeue html from consumer queue
-        QueueArg queueArg = htmls.dequeue(std::ref(activeThreads));
+        QueueArg queueArg = htmls.dequeue(&urls, &activeThreads);
 
-        // No more work to be done
-        if (queueArg.url == "done") {
+        if (queueArg.url == "xxs") {
             break;
         }
 
         // Get base URL for hashing data to same line in case of contact page
         std::string org_url = queueArg.url;
         queueArg.url = Utils::getUrlDomain(queueArg.url);
+
+        std::cout << activeThreads.load() << std::endl;
+        if (activeThreads.load() == 0) {
+            urls.notify_all();
+            htmls.notify_all();
+        }
 
         // Increment active threads counter
         activeThreads.fetch_add(1, std::memory_order_relaxed);
@@ -74,10 +77,10 @@ void Scrape::consumer(
                 contactUrl = contactUrl_res.second.attributes["href"];
 
                 if (contactUrl.size() > 0) {
-                    if (contactUrl.find(".com") == std::string::npos) {
-                        contactUrl = queueArg.url + "/" + contactUrl;
-                    } else {
+                    if (contactUrl[0] == 'h' && contactUrl[1] == 't' && contactUrl[2] == 't' && contactUrl[3] == 'p') {
                         queueArg.url = Utils::getUrlDomain(contactUrl);
+                    } else {
+                        contactUrl = queueArg.url + (contactUrl[0] == '/' ? "" : "/") + contactUrl;
                     }
 
                     urls.enqueue((QueueArg) { .url =  contactUrl });
@@ -137,7 +140,7 @@ void Scrape::consumer(
 
         // Output to file if valuable data exists
         if (scrapeResult.emails.size() > 0 || scrapeResult.numbers.size() > 0 || scrapeResult.socials.size() > 0) {
-            mtx.lock();
+            // mtx.lock();
             outCSV << (
                 queueArg.url + "," + 
                 scrapeResult.title + "," + 
@@ -151,7 +154,7 @@ void Scrape::consumer(
                 scrapeResult.region + "," + 
                 scrapeResult.postalCode + "\n"
             );
-            mtx.unlock();
+            // mtx.unlock();
         }
 
         // Decrement active threads counter

@@ -1,10 +1,21 @@
 #include "Scrape.hpp"
+#include <thread>
+#include <chrono>
+
+void foo() {
+   std::cout << " foo is executing concurrently...\n";
+}
+
+void bar(int x) {
+   std::cout << " bar is executing concurrently...\n";
+}
 
 // Driver Code
 int main() {
     /* ------------------------------------------- */
     /* ------------ 1. FETCHING STAGE ------------ */
     /* ------------------------------------------- */
+    auto start = std::chrono::high_resolution_clock::now();
     std::ios_base::sync_with_stdio(false);
     std::ifstream file("../in.txt");
 
@@ -28,19 +39,49 @@ int main() {
     std::mutex mtx;
     std::unordered_map<std::string, ScrapeResult> mem;
 
-    Scrape::producer(std::ref(urls), std::ref(htmls), std::ref(activeThreads));
-    Scrape::consumer(std::ref(urls), std::ref(htmls), std::ref(activeThreads), std::ref(outCSV), std::ref(mtx), std::ref(mem));
-    Scrape::producer(std::ref(urls), std::ref(htmls), std::ref(activeThreads));
-    Scrape::consumer(std::ref(urls), std::ref(htmls), std::ref(activeThreads), std::ref(outCSV), std::ref(mtx), std::ref(mem));
+    int num_producers = 50;
+    int num_consumers = 30;
 
-    std::cout << mem.size() << " items inside mem:" << std::endl;
-    for (auto& [key, value] : mem) {
-        std::cout << key << ": " << value.title << std::endl;
+    std::thread producers[num_producers];
+    std::thread consumers[num_consumers];
+
+    for (int i = 0; i < num_producers; i++) {
+        // std::cout << "producer " << i << " made" << std::endl;
+        producers[i] = std::thread(Scrape::producer, std::ref(urls), std::ref(htmls), std::ref(activeThreads));
+        // producers[i] = std::thread(foo);
     }
+
+    for (int i = 0; i < num_consumers; i++) {
+        // std::cout << "consumer " << i << " made" << std::endl;
+        consumers[i] = std::thread(Scrape::consumer, std::ref(urls), std::ref(htmls), std::ref(activeThreads), std::ref(outCSV), std::ref(mtx), std::ref(mem));
+        // consumers[i] = std::thread(bar, 3);
+    }
+
+    for (int i = 0; i < num_producers; i++) {
+        std::cout << "producer " << i << " joined" << std::endl;
+        producers[i].join();
+    }
+
+    for (int i = 0; i < num_consumers; i++) {
+        std::cout << "consumer " << i << " joined" << std::endl;
+        consumers[i].join();
+    }
+
+
+
+    // std::cout << mem.size() << " items inside mem:" << std::endl;
+    // for (auto& [key, value] : mem) {
+    //     std::cout << key << ": " << value.title << std::endl;
+    // }
 
     outCSV.close();
     curl_global_cleanup();
     
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+
+    std::cout << "Execution time: " << duration.count() << " seconds." << std::endl;
+
     return 0;
 }
 

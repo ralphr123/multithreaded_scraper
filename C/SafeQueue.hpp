@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_set>
 #include <atomic>
+#include <iostream>
 
 struct QueueArg {
     std::string url;
@@ -49,12 +50,11 @@ class SafeQueue {
 
         // Get the "front"-element.
         // If the queue is empty, wait till an element is avaiable.
-        QueueArg dequeue(std::atomic<unsigned int> &activeThreads) {
+        QueueArg dequeue(SafeQueue *otherQueue, const std::atomic<unsigned int> *activeThreads = nullptr) {
             std::unique_lock<std::mutex> lock(m);
             while(q.empty()) {
-                // If no active threads, assume queue will forever be empty, return "done"
-                if (activeThreads.load() == 0) {
-                    return (QueueArg) { .url = "done" };
+                if ((!activeThreads && otherQueue->empty()) || (otherQueue->empty() && activeThreads->load() == 0)) {
+                    return (QueueArg) { .url = "xxs" };
                 }
 
                 // Release lock as long as the wait and reaquire it afterwards.
@@ -63,6 +63,10 @@ class SafeQueue {
             QueueArg t = std::move(q.front());
             q.pop();
             return t;
+        }
+
+        void notify_all() {
+            c.notify_all();
         }
 
         bool empty() {

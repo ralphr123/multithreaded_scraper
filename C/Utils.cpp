@@ -90,7 +90,7 @@ std::string Utils::curlGetReq(CURL *curl, const std::string &url) {
     CURLcode res = curl_easy_perform(curl);
 
     if (res != CURLE_OK) {
-        // std::cout << url.c_str() << ": " << curl_easy_strerror(res) << std::endl;
+        std::cout << url.c_str() << ": " << curl_easy_strerror(res) << std::endl;
         return "error";
     }
 
@@ -173,7 +173,7 @@ std::string Utils::getUrlDomain(const std::string &url) {
     std::string baseUrl = "http://";
     short slashCount = 0;
 
-    // If URL does not start with http://, add it
+    // If URL does not start with http://, add http:// prefix to it
     if (!(url[0] == 'h' && url[1] == 't' && url[2] == 't' && url[3] == 'p')) {
         slashCount = 2;
     }
