@@ -54,7 +54,7 @@ class SafeQueue {
             std::unique_lock<std::mutex> lock(m);
             while(q.empty()) {
                 if ((!activeThreads && otherQueue->empty()) || (otherQueue->empty() && activeThreads->load() == 0)) {
-                    return (QueueArg) { .url = "xxs" };
+                    return (QueueArg) { .url = "exit" };
                 }
 
                 // Release lock as long as the wait and reaquire it afterwards.

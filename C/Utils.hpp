@@ -22,6 +22,7 @@ class Utils {
         static void curlSetHeaders(CURL *curl);
         static std::string curlGetReq(CURL *curl, const std::string &url);
         static std::string lowerCaseString(const std::string_view &str);
+        static void removeLinebreaks(std::string &str);
         static bool stringReplace(std::string& str, const std::string& from, const std::string& to);
         static int numberOfMatches(const std::string_view &str, const std::string_view &pattern);
         static std::string getUrlPath(const std::string &url);

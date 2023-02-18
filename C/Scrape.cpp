@@ -3,10 +3,15 @@
 void Scrape::producer(SafeQueue &urls, SafeQueue &htmls, std::atomic<unsigned int> &activeThreads) {
     CURL *curl = curl_easy_init();
     Utils::curlSetHeaders(curl);
-    while (!urls.empty() || !htmls.empty()) {
+    while (1) {
+        if (activeThreads.load() == 0) {
+            urls.notify_all();
+            htmls.notify_all();
+        }
+
         QueueArg queueArg = urls.dequeue(&htmls, &activeThreads);
 
-        if (queueArg.url == "xxs") {
+        if (queueArg.url == "exit") {
             break;
         }
 
@@ -17,9 +22,9 @@ void Scrape::producer(SafeQueue &urls, SafeQueue &htmls, std::atomic<unsigned in
         queueArg.html = Utils::curlGetReq(curl, queueArg.url);
 
         if (queueArg.html != "error") {
+            // std::cout << queueArg.url << std::endl;
             htmls.enqueue(std::move(queueArg));
         }
-
         // Decrement active threads counter
         activeThreads.fetch_sub(1, std::memory_order_relaxed);
     }
@@ -35,25 +40,25 @@ void Scrape::consumer(
     std::unordered_map<std::string, ScrapeResult> &mem
 ) {
     while (1) {
+        if (activeThreads.load() == 0) {            
+            urls.notify_all();
+            htmls.notify_all();
+        }
+
         // Dequeue html from consumer queue
         QueueArg queueArg = htmls.dequeue(&urls, &activeThreads);
 
-        if (queueArg.url == "xxs") {
+        if (queueArg.url == "exit") {
             break;
         }
+        
+        // Increment active threads counter
+        activeThreads.fetch_add(1, std::memory_order_relaxed);
 
         // Get base URL for hashing data to same line in case of contact page
         std::string org_url = queueArg.url;
         queueArg.url = Utils::getUrlDomain(queueArg.url);
 
-        std::cout << activeThreads.load() << std::endl;
-        if (activeThreads.load() == 0) {
-            urls.notify_all();
-            htmls.notify_all();
-        }
-
-        // Increment active threads counter
-        activeThreads.fetch_add(1, std::memory_order_relaxed);
 
         HTMLParser bc = HTMLParser(queueArg.html);
         ScrapeResult scrapeResult;
@@ -91,12 +96,14 @@ void Scrape::consumer(
 
             // Site description
             std::pair<bool, Element> description_res = bc.findByAttribute("meta", "name", "description");
+            if (description_res.first) Utils::removeLinebreaks(description_res.second.text);
 
             // Site title
             std::pair<bool, Element> title_res = bc.findByAttribute("meta", "name", "og:site_name");
             if (!title_res.first) title_res = bc.findByAttribute("meta", "name", "og:title");
             if (!title_res.first) title_res = std::pair<bool, Element>(1, bc.getTitle());
-            
+            Utils::removeLinebreaks(title_res.second.text);
+
             // Favicon
             std::pair<bool, Element> favicon_res = bc.findByCallback(
                 "link",
@@ -140,7 +147,7 @@ void Scrape::consumer(
 
         // Output to file if valuable data exists
         if (scrapeResult.emails.size() > 0 || scrapeResult.numbers.size() > 0 || scrapeResult.socials.size() > 0) {
-            // mtx.lock();
+            mtx.lock();
             outCSV << (
                 queueArg.url + "," + 
                 scrapeResult.title + "," + 
@@ -154,7 +161,7 @@ void Scrape::consumer(
                 scrapeResult.region + "," + 
                 scrapeResult.postalCode + "\n"
             );
-            // mtx.unlock();
+            mtx.unlock();
         }
 
         // Decrement active threads counter

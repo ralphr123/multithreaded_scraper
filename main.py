@@ -25,8 +25,8 @@ urlQueue: queue.Queue = queue.Queue()
 fetchQueue: queue.Queue = queue.Queue()
 
 # Params
-numProducers = 50
-numConsumers = 30
+numProducers = 25
+numConsumers = 5
 
 for url in urls:
     urlQueue.put({'isSubPage': False, 'url': url})

@@ -69,6 +69,9 @@ void Utils::curlSetHeaders(CURL *curl) {
 
     // Set timeout to 5 seconds
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5);
+
+    // For thread safety
+    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
 }
 
 
@@ -82,10 +85,10 @@ std::string Utils::curlGetReq(CURL *curl, const std::string &url) {
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
     std::string response_string;
-    std::string header_string;
-    // curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
+    // std::string header_string;
+
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
-    curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+    // curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
 
     CURLcode res = curl_easy_perform(curl);
 
@@ -110,6 +113,17 @@ std::string Utils::lowerCaseString(const std::string_view &str) {
 
     return res;
 }
+
+/// @brief Remove linebreaks from string
+/// @param str: String to remove linebreaks from in place
+void Utils::removeLinebreaks(std::string &str) {
+    for (int i = 0; i < str.size(); i++) {
+        if (str[i] == '\n') {
+            str[i] = ' ';
+        }
+    }
+}
+
 
 /// @brief Replaces all matches of a pattern replaced by a replacement in a string
 /// @param str: String to modify
