@@ -20,3 +20,7 @@ CMakeFiles
 *.cmake
 CMakeCache.txt
 *.a
+example*
+build
+Main 2
+*.gch
